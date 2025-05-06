@@ -1,0 +1,17 @@
+{% extends 'Filow/base.html' %}
+
+{% block main %}
+  <p>Login</p>
+      
+  <form action="{% url 'users:login' %}" method="post">{% csrf_token %}
+    <label for="email">Email</label>
+    {{ form.username }}
+
+    <label for="password">Senha</label>
+    {{ form.password }}
+
+    <button name="login" id="login">Entrar</button>
+    {{ form.errors }}
+  </form>
+
+{% endblock main %}

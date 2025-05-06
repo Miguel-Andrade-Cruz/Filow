@@ -1,0 +1,29 @@
+{% extends 'Filow/base.html' %}
+
+
+
+{% block main %}
+
+<h1>Filow</h1>
+
+<a href="{% url new-schedule %}">Novo horário</a>
+
+<h3>Seus horários</h3>
+<div>
+    {% if not schedules %}
+    <p>Sem horários por hoje</p>
+    {% else %}
+    {% for schedule in shcedules %}
+    
+    <div>
+        <p>{{ schedule.subject }}</p>
+        <h2>{{ schedule.begins_at }} ÁS {{ schedule.ends_at }}</h2>
+        <h3>{{ schedule.classroom }}</h3>
+        <p>{{ schedule.teacher }}</p>
+    </div> 
+    
+    {% endfor %}
+    {% endif %}
+
+</div>
+{% enblock main %}

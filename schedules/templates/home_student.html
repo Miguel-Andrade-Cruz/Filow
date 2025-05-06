@@ -1,0 +1,26 @@
+{% extends 'Filow/base.html' %}
+
+{% block main %}
+<h1>Filow</h1>
+<h2>Bem vindo {{ user }}</h2>
+
+<div>
+    {% if not schedules %}
+    <p>Sem horários por hoje</p>
+    {% else %}
+    {% for schedule in shcedules %}
+    
+    <div>
+        <p>{{ schedule.subject }}</p>
+        <h2>{{ schedule.begins_at }} ÁS {{ schedule.ends_at }}</h2>
+        <h3>{{ schedule.classroom }}</h3>
+        <p>{{ schedule.teacher }}</p>
+    </div> 
+    
+    {% endfor %}
+    {% endif %}
+
+</div>
+
+
+{% endblock main %}
