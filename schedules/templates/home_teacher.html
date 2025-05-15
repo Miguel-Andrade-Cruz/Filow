@@ -6,7 +6,9 @@
 
 <h1>Filow</h1>
 
-<a href="{% url new-schedule %}">Novo horário</a>
+<form method="post" action="{% url 'schedules:new_schedule' %}">{% csrf_token %}
+    <button type="submit">Novo horário</button>
+</form>
 
 <h3>Seus horários</h3>
 <div>
@@ -18,7 +20,7 @@
     <div>
         <p>{{ schedule.subject }}</p>
         <h2>{{ schedule.begins_at }} ÁS {{ schedule.ends_at }}</h2>
-        <h3>{{ schedule.classroom }}</h3>
+        <h3>{{ schedule.classroom_tag }} {{schedule.classroom_quadrant}}</h3>
         <p>{{ schedule.teacher }}</p>
     </div> 
     
@@ -26,4 +28,8 @@
     {% endif %}
 
 </div>
-{% enblock main %}
+
+<form method="post" action="{% url 'users:logout' %}">{% csrf_token %}
+    <button type="submit">Sair</button>
+</form>
+{% endblock main %}
