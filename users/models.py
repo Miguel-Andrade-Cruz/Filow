@@ -50,9 +50,15 @@ class User(AbstractBaseUser):
 class Subject(models.Model):
   subject_name = models.CharField(max_length=255)
 
+  def __str__(self):
+      return f"{self.subject_name}"
+
 
 class ClassTag(models.Model):
   tag = models.CharField(max_length=255)
+  
+  def __str__(self):
+      return f"Turma {self.tag}"
 
 
 class Teacher(models.Model):
