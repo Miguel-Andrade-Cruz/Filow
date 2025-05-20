@@ -5,10 +5,17 @@
 <h2>Bem vindo {{ user }}</h2>
 
 <div>
+    <form action="{% url 'schedules:home' %}" method="post">{% csrf_token %}
+
+        <label for="date">Data:</label>
+        <input type="date" id="date" name="date">
+        <button type="submit">Buscar</button>
+    </form>
+
     {% if not schedules %}
     <p>Sem horários por hoje</p>
     {% else %}
-    {% for schedule in shcedules %}
+    {% for schedule in schedules %}
     
     <div>
         <p>{{ schedule.subject }}</p>

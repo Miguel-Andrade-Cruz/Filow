@@ -15,7 +15,8 @@ urlpatterns = [
       authentication_form=LoginForm
 
     ),
-    name='login'),
+    name='login'
+  ),
   
   path(
     'logout/',

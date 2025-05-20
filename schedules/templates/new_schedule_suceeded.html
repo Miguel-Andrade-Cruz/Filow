@@ -1,8 +1,8 @@
-{% extends base.html %}
+{% extends 'Filow/base.html' %}
 {% block main %}
 
 <h1>Filow</h1>
 <p>Horŕaio criado com sucesso</p>
-<a href="{% url schedules:home %}">Voltar para a lista de horários</a>
+<a href="{% url 'schedules:home' %}">Voltar para a lista de horários</a>
 
-{% enbdlock main %}
+{% endblock main %}

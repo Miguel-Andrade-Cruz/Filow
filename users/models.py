@@ -64,8 +64,13 @@ class ClassTag(models.Model):
 class Teacher(models.Model):
   user_id = models.ForeignKey(User, on_delete=models.CASCADE)
   subject_id = models.ForeignKey(Subject, on_delete=models.CASCADE)
+  def __str__(self):
+    return f"Prof {self.user_id}"
+
 
 class Student(models.Model):
   user_id = models.ForeignKey(User, on_delete=models.CASCADE)
   class_id = models.ForeignKey(ClassTag, on_delete=models.CASCADE)
+  def __str__(self):
+    return f"Aluno {self.user_id}"
 

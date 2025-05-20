@@ -2,7 +2,7 @@
 
 {% block main %}
 
-<form>{% csrf_token%}
+<form action="{% url 'schedules:new_schedule' %}" method="post">{% csrf_token%}
     {{ form }}
     <input type="submit" value="Salvar">
 </form>

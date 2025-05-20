@@ -12,14 +12,22 @@
 
 <h3>Seus horários</h3>
 <div>
+
+    <form action="{% url 'schedules:home' %}" method="post">{% csrf_token %}
+
+        <label for="date">Data:</label>
+        <input type="date" id="date" name="date">
+        <button type="submit">Buscar</button>
+    </form>
+
     {% if not schedules %}
     <p>Sem horários por hoje</p>
     {% else %}
-    {% for schedule in shcedules %}
+    {% for schedule in schedules %}
     
     <div>
         <p>{{ schedule.subject }}</p>
-        <h2>{{ schedule.begins_at }} ÁS {{ schedule.ends_at }}</h2>
+        <h2>{{ schedule.begins_at_time }} ÁS {{ schedule.ends_at_time }}</h2>
         <h3>{{ schedule.classroom_tag }} {{schedule.classroom_quadrant}}</h3>
         <p>{{ schedule.teacher }}</p>
     </div> 
