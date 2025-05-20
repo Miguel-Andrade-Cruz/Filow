@@ -5,99 +5,62 @@ from .forms import ScheduleForm
 from .models import Schedules
 from users.models import Teacher, Student
 
+from .handlers.handleSchedules import handleTeacherSchedules, handleStudentSchedules
+from .handlers.mapper import mapSchedules
 @login_required(login_url='/auth/login/')
 def home(request):
 
   if request.method == 'POST':
     
     date_request = request.POST.get('date')
+    
     if request.user.role == 'TCHR':
+      schedules = mapSchedules(handleTeacherSchedules(request, date_request))
 
-      teacher = Teacher.objects.get(user_id=request.user.id)
-      if date_request == '':
-        schedules = Schedules.objects.filter(teacher_id=teacher)
-      else: 
-        schedules = Schedules.objects.filter(teacher_id=teacher, begins_at_date=date_request)
-
-    elif request.user.role == 'STDNT':
-      student = Student.objects.get(user_id=request.user.id)
-      if date_request == '':
-        schedules = Schedules.objects.filter(class_id=student.class_id)
-      else:
-        schedules = Schedules.objects.filter(class_id=student.class_id, begins_at_date=date_request)
-
-    if schedules == []:
       return render(request, './home_teacher.html', {
         'user': request.user.name,
-        'schedules': False,
+        'schedules': schedules,
       })
-    schedules = [
-    {
-      'teacher': schedule.teacher_id.user_id.name,
-      'subject': schedule.subject_id.subject_name,
-      'class': schedule.class_id.tag,
-      'classroom_tag': schedule.classroom_id.tag,
-      'classroom_quadrant': schedule.classroom_id.quadrant,
-      'begins_at_time': schedule.begins_at_time,
-      'ends_at_time': schedule.ends_at_time
-    }
-    for schedule in schedules
-    ]
+      
+    elif request.user.role == 'STDNT':
+      schedules = mapSchedules(handleStudentSchedules(request, date_request))
 
-    return render(request, './home_teacher.html', {
-      'user': request.user.name,
-      'schedules': schedules,
-    })
+      return render(request, './home_student.html', {
+        'user': request.user.name,
+        'schedules': schedules,
+      })
+    
+
 
 
 
   if request.user.role == 'TCHR':
 
-    teacher = Teacher.objects.get(user_id=request.user.id)
-    
-    schedules = Schedules.objects.filter(teacher_id=teacher)
+    schedules = mapSchedules(handleTeacherSchedules(request))
 
-    schedules = [
+    return render(
+      request,
+      './home_teacher.html',
       {
-        'teacher': schedule.teacher_id.user_id.name,
-        'subject': schedule.subject_id.subject_name,
-        'class': schedule.class_id.tag,
-        'classroom_tag': schedule.classroom_id.tag,
-        'classroom_quadrant': schedule.classroom_id.quadrant,
-        'date': schedule.begins_at_date,
-        'begins_at_time': schedule.begins_at_time,
-        'ends_at_time': schedule.ends_at_time,
+        'user': request.user.name,
+        'schedules': schedules,
       }
-      for schedule in schedules
-    ]
-
-    return render(request, './home_teacher.html', {
-      'user': request.user.name,
-      'schedules': schedules,
-    })
+    )
   
   
   
   elif request.user.role == 'STDNT':
 
-    student = Student.objects.get(user_id=request.user.id)
-    schedules = Schedules.objects.filter(class_id=student.class_id)
+    schedules = mapSchedules(handleStudentSchedules(request))
 
-    schedules = [
+    return render(
+      request,
+      './home_student.html',
       {
-        'teacher': schedule.teacher_id.user_id.name,
-        'subject': schedule.subject_id.subject_name,
-        'class': schedule.class_id.tag,
-        'classroom_tag': schedule.classroom_id.tag,
-        'classroom_quadrant': schedule.classroom_id.quadrant,
-        'date': schedule.begins_at_date,
-        'begins_at_time': schedule.begins_at_time,
-        'ends_at_time': schedule.ends_at_time,
+        'user': request.user.name,
+        'schedules': schedules
       }
-      for schedule in schedules
-    ]
-
-    return render(request, './home_student.html', {'user': request.user.name, 'schedules': schedules})
+    )
 
 
 
